@@ -17,13 +17,14 @@ export default function Footer() {
   return (
     <footer
       className="mt-auto border-t border-white/[20%]
-     h-14 flex justify-between px-6 items-center text-white/[50%] "
+     md:first-letter:h-14 flex flex-col md:flex-row justify-between px-6 
+      items-center text-white/[30%] "
     >
-      <small>
+      <small className="text-xs">
         &copy; 2050 Copyright Mainframe Studio. All rights reserved.{" "}
       </small>
-      <section>
-        <ul className="flex text-sm justify-between gap-6">
+      <section className="py-4">
+        <ul className="flex flex-col md:flex-row gap-4 text-sm items-center ">
           {routes.map((route) => (
             <li className="transition hover:text-white/[70%]" key={route.id}>
               <Link href={route.path}>{route.name}</Link>
