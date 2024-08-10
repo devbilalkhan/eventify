@@ -1,9 +1,11 @@
 "use client";
+import { useDebounce } from "@/hooks/searchInput";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 
 export default function SearchForm() {
   const [text, setText] = useState("");
+  const debouncedValue = useDebounce<string>(text);
   const inputRef = useRef<HTMLInputElement>(null);
   const route = useRouter();
 
@@ -19,6 +21,7 @@ export default function SearchForm() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   };
+
   return (
     <form
       onSubmit={handleSubmit}
