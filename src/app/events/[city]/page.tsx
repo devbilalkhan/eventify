@@ -1,6 +1,7 @@
 import Heading from "@/components/Heading";
 import HeroContainer from "@/components/HeroContainer";
 import { TEvent } from "../../../lib/type";
+import EventList from "@/components/EventList";
 
 type EventPageProps = {
   params: {
@@ -28,9 +29,7 @@ const EventsPage = async ({ params }: EventPageProps) => {
     <>
       <HeroContainer>
         <Heading>{capitalizeFirstWordAndCity("events", city)}</Heading>
-        {data.map((event: TEvent) => (
-          <span key={event.id}>{event.name}</span>
-        ))}
+        <EventList events={data}/>
       </HeroContainer>
     </>
   );

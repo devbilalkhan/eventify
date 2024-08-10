@@ -4,7 +4,7 @@ export type TEvent = {
   slug: string;
   city: string;
   location: string;
-  data: Date; 
+  date: Date;
   organizerName: string;
   imageUrl: string;
   description: string;  
