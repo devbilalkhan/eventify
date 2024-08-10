@@ -28,8 +28,11 @@ const EventsPage = async ({ params }: EventPageProps) => {
   return (
     <>
       <HeroContainer>
-        <Heading>{capitalizeFirstWordAndCity("events", city)}</Heading>
-        <EventList events={data}/>
+        <Heading className="mb-28">
+          {capitalizeFirstWordAndCity("events", city)}
+        </Heading>
+
+        <EventList events={data} />
       </HeroContainer>
     </>
   );
