@@ -55,7 +55,7 @@ function Card({ event }: CardProps) {
 
   return (
     <Link
-      href={`/event/${city.toLowerCase()}/${slug}`}
+      href={`/event/${slug}`}
       className="flex flex-col relative hover:scale-105 overflow-hidden active:scale-[1.02] flex-1 basis-80 max-w-[400px]
      h-[380px]  bg-white/[3%] rounded-xl"
     >

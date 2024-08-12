@@ -6,7 +6,7 @@ export default function Heading({
   className,
 }: {
   children: React.ReactNode;
-  className: string;
+  className?: string;
 }) {
   return (
     <div
