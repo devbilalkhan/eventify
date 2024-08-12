@@ -56,11 +56,11 @@ function Card({ event }: CardProps) {
   return (
     <Link
       href={`/event/${slug}`}
-      className="flex flex-col relative hover:scale-105 overflow-hidden active:scale-[1.02] flex-1 basis-80 max-w-[400px]
+      className="flex flex-col relative hover:scale-105 overflow-hidden active:scale-[1.02] flex-1 basis-80 max-w-[350px]
      h-[380px]  bg-white/[3%] rounded-xl"
     >
       <Image
-        className="h-[60%] object-fit"
+        className="h-[60%] object-cover"
         src={imageUrl}
         alt={name}
         width={500}
