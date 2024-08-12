@@ -1,3 +1,4 @@
+import { ThreeBodyLoader } from "@/app/loading";
 import Heading from "@/components/Heading";
 import { TEvent } from "@/lib/type";
 import Image from "next/image";
@@ -81,6 +82,7 @@ export default async function EventPage({ params }: EventPageProps) {
           <SectionContent>{location}</SectionContent>
         </Section>
       </div>
+      
     </main>
   );
 }
