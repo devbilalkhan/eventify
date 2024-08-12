@@ -24,7 +24,9 @@ const EventsPage = async ({ params }: EventPageProps) => {
     `https://bytegrad.com/course-assets/projects/evento/api/events?city=${city}`
   );
   const data: TEvent[] = await response.json();
-
+  const sleep = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
+  await sleep(2000);
   return (
     <>
       <HeroContainer>

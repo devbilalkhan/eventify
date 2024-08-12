@@ -1,4 +1,3 @@
-import { ThreeBodyLoader } from "@/app/loading";
 import Heading from "@/components/Heading";
 import { TEvent } from "@/lib/type";
 import Image from "next/image";
@@ -28,6 +27,10 @@ export default async function EventPage({ params }: EventPageProps) {
     imageUrl,
     description,
   } = data;
+
+  const sleep = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
+  await sleep(2000);
 
   return (
     <main>
@@ -82,7 +85,6 @@ export default async function EventPage({ params }: EventPageProps) {
           <SectionContent>{location}</SectionContent>
         </Section>
       </div>
-      
     </main>
   );
 }
