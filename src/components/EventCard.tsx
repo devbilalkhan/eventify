@@ -1,32 +1,14 @@
+"use client";
 import { TEvent } from "@/lib/type";
-import { getEvents } from "@/lib/utils";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-
-type CardProps = {
+import { useRef } from "react";
+type EventCardProps = {
   event: TEvent;
 };
 
-type EventListProps = {
-  city: string;
-};
-
-export default async function EventList({ city }: EventListProps) {
-  const events = await getEvents(city);
-  return (
-    <section
-      className="flex gap-8 flex-wrap
-     justify-center max-w-[1100px]
-     "
-    >
-      {events.map((event: TEvent) => (
-        <Card key={event.id} event={event} />
-      ))}
-    </section>
-  );
-}
-
-function Card({ event }: CardProps) {
+function EventCard({ event }: EventCardProps) {
   const {
     location,
     organizerName,
@@ -39,8 +21,17 @@ function Card({ event }: CardProps) {
     imageUrl,
   } = event;
 
+  const motionLinkRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: motionLinkRef,
+    offset: ["0 1", "1.5 1"],
+  });
+
+  const scaleProgress = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
+  const opacityProgress = useTransform(scrollYProgress, [0, 1], [0.3, 1]);
   const getDateMonth = (date: Date) => {
     const extractDate = new Date(date);
+
     const day = extractDate.toLocaleString("en-AU", {
       day: "2-digit",
     });
@@ -54,12 +45,22 @@ function Card({ event }: CardProps) {
   };
 
   const { day, month } = getDateMonth(date);
-
+  const MotionLink = motion(Link);
   return (
-    <Link
+    <MotionLink
+      ref={motionLinkRef}
       href={`/event/${slug}`}
       className="flex flex-col relative hover:scale-105 overflow-hidden active:scale-[1.02] flex-1 basis-80 max-w-[350px]
      h-[380px]  bg-white/[3%] rounded-xl"
+      style={{
+        // @ts-ignore
+        scale: scaleProgress,
+        opacaity: scaleProgress,
+      }}
+      initial={{
+        opacity: 0.1,
+        scale: 0.8,
+      }}
     >
       <Image
         className="h-[60%] object-cover"
@@ -77,6 +78,8 @@ function Card({ event }: CardProps) {
         <p className="text-white/[90%]">{day}</p>
         <p className="text-accent text-xs -mt-[5px]">{month}</p>
       </div>
-    </Link>
+    </MotionLink>
   );
 }
+
+export default EventCard;

@@ -6,7 +6,7 @@ export default function HeroContainer({
   children: React.ReactNode;
 }) {
   return (
-    <main className="mt-20 flex flex-col items-center min-h-[110vh]">
+    <main className="my-20 flex flex-col items-center">
       {children}
     </main>
   );
