@@ -2,21 +2,42 @@ import Heading from "@/components/Heading";
 import { TEvent } from "@/lib/type";
 import Image from "next/image";
 
-type EventPageProps = {
+import { Metadata } from "next";
+import { capitalize } from "@/lib/utils";
+
+type Props = {
   params: {
     name: string;
   };
 };
 
-export default async function EventPage({ params }: EventPageProps) {
-  const eventName = params.name;
-  // const response = await fetch(``);
-  // const data = await response.json();
-  const response = await fetch(
-    `https://bytegrad.com/course-assets/projects/evento/api/events/${eventName}`
-  );
-  const data: TEvent = await response.json();
+export function generateMetadata({ params }: Props): Metadata {
+  const city = params.name;
+  return {
+    title: `${capitalize(city)}`,
+  };
+}
 
+export default async function EventPage({ params }: Props) {
+  const eventName = params.name;
+  let url: string = "";
+  if (eventName) {
+    url = `https://bytegrad.com/course-assets/projects/evento/api/events/${eventName}`;
+  } else {
+    url = `https://bytegrad.com/course-assets/projects/evento/api/events/`;
+  }
+  let data: TEvent | null = null;
+  try {
+    const response = await fetch(url);
+    const data: TEvent = await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+
+  if (!data) {
+    // Handle the case where data is null or undefined
+    return <div>Event not found or an error occurred.</div>;
+  }
   const {
     name,
     slug,
@@ -27,10 +48,6 @@ export default async function EventPage({ params }: EventPageProps) {
     imageUrl,
     description,
   } = data;
-
-  const sleep = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
-  await sleep(2000);
 
   return (
     <main>

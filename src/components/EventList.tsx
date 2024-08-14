@@ -2,15 +2,20 @@ import { TEvent } from "@/lib/type";
 import Image from "next/image";
 import Link from "next/link";
 
-type EventListProps = {
-  events: TEvent[];
-};
-
 type CardProps = {
   event: TEvent;
 };
 
-export default function EventList({ events }: EventListProps) {
+type EventListProps = {
+  city: string;
+};
+
+export default async function EventList({ city }: EventListProps) {
+  const response = await fetch(
+    `https://bytegrad.com/course-assets/projects/evento/api/events?city=${city}`
+  );
+  const events: TEvent[] = await response.json();
+
   return (
     <section
       className="flex gap-8 flex-wrap

@@ -2,40 +2,35 @@ import Heading from "@/components/Heading";
 import HeroContainer from "@/components/HeroContainer";
 import { TEvent } from "../../../lib/type";
 import EventList from "@/components/EventList";
+import { Suspense } from "react";
+import Loading from "@/app/events/loading";
+import { capitalize } from "@/lib/utils";
+import { Metadata } from "next";
 
-type EventPageProps = {
+type Props = {
   params: {
     city: string;
   };
 };
 
-const EventsPage = async ({ params }: EventPageProps) => {
-  const { city } = params;
-  function capitalizeFirstWordAndCity(text: string, city: string): string {
-    const words = text.split(" ");
-    if (words.length > 0) {
-      words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
-    }
-    const capitalizedCity = city.charAt(0).toUpperCase() + city.slice(1);
-    return `${words.join(" ")} in ${capitalizedCity}`;
-  }
+export function generateMetadata({ params }: Props): Metadata {
+  const city = params.city;
+  return {
+    title: city === "all" ? "All Events" : `Events in ${capitalize(city)}`,
+  };
+}
 
-  const response = await fetch(
-    `https://bytegrad.com/course-assets/projects/evento/api/events?city=${city}`
-  );
-  const data: TEvent[] = await response.json();
-  const sleep = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
-  await sleep(2000);
+const EventsPage = async ({ params }: Props) => {
+  const { city } = params;
+
   return (
     <>
       <HeroContainer>
-        <Heading className="mb-28">
-          {capitalizeFirstWordAndCity("events", city)}
-        </Heading>
-
-        <EventList events={data} />
+        <Heading className="mb-28">Events in {city}</Heading>
       </HeroContainer>
+      <Suspense fallback={<Loading />}>
+        <EventList city={capitalize(city)} />
+      </Suspense>
     </>
   );
 };
