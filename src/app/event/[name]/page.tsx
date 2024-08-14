@@ -3,7 +3,7 @@ import { TEvent } from "@/lib/type";
 import Image from "next/image";
 
 import { Metadata } from "next";
-import { capitalize } from "@/lib/utils";
+import { capitalize, getEvent } from "@/lib/utils";
 
 type Props = {
   params: {
@@ -11,43 +11,23 @@ type Props = {
   };
 };
 
-export function generateMetadata({ params }: Props): Metadata {
-  const city = params.name;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const eventName = params.name;
+  const response = await fetch(
+    `https://bytegrad.com/course-assets/projects/evento/api/events/${eventName}`
+  );
+  const event = await response.json();
+
   return {
-    title: `${capitalize(city)}`,
+    title: `${capitalize(event.name)}`,
   };
 }
 
 export default async function EventPage({ params }: Props) {
   const eventName = params.name;
-  let url: string = "";
-  if (eventName) {
-    url = `https://bytegrad.com/course-assets/projects/evento/api/events/${eventName}`;
-  } else {
-    url = `https://bytegrad.com/course-assets/projects/evento/api/events/`;
-  }
-  let data: TEvent | null = null;
-  try {
-    const response = await fetch(url);
-    const data: TEvent = await response.json();
-  } catch (err) {
-    console.log(err);
-  }
-
-  if (!data) {
-    // Handle the case where data is null or undefined
-    return <div>Event not found or an error occurred.</div>;
-  }
-  const {
-    name,
-    slug,
-    city,
-    location,
-    date,
-    organizerName,
-    imageUrl,
-    description,
-  } = data;
+  const event = await getEvent(eventName);
+  const { name, city, location, date, organizerName, imageUrl, description } =
+    event;
 
   return (
     <main>
@@ -100,6 +80,7 @@ export default async function EventPage({ params }: Props) {
         <Section>
           <SectionHeading>Location</SectionHeading>
           <SectionContent>{location}</SectionContent>
+          <SectionContent>{city}</SectionContent>
         </Section>
       </div>
     </main>
