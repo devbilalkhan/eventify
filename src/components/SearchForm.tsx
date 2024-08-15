@@ -1,10 +1,13 @@
 "use client";
 import { useDebounce } from "@/hooks/searchInput";
 import { useRouter } from "next/navigation";
+import { Router } from "next/router";
 import React, { useRef, useState } from "react";
+import { z } from "zod";
 
 export default function SearchForm() {
   const [text, setText] = useState("");
+  const [error, setError] = useState("");
   const debouncedValue = useDebounce<string>(text);
   const inputRef = useRef<HTMLInputElement>(null);
   const route = useRouter();
@@ -15,10 +18,18 @@ export default function SearchForm() {
       inputRef.current?.focus();
       return;
     }
-    route.push(`/events/${text}`);
+    const textInputSchema = z.string().regex(/^[a-zA-z\s]+$/);
+
+    const validatedText = textInputSchema.safeParse(text);
+    if (!validatedText.success) {
+      setError("Only characters and spaces are allowed.");
+    } else {
+      route.replace(`events/${text}`);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError("");
     setText(e.target.value);
   };
 
@@ -35,6 +46,7 @@ export default function SearchForm() {
         placeholder="Search events..."
         onChange={handleChange}
       />
+      {error !== "" && <span className="text-xs text-red-600">{error}</span>}
     </form>
   );
 }
