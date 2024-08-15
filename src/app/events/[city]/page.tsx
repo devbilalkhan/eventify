@@ -1,7 +1,6 @@
 import Heading from "@/components/Heading";
 import HeroContainer from "@/components/HeroContainer";
 
-
 import { Suspense } from "react";
 import Loading from "@/app/events/loading";
 import { capitalize } from "@/lib/utils";
@@ -27,10 +26,10 @@ const EventsPage = async ({ params }: Props) => {
   return (
     <>
       <HeroContainer>
-        <Heading className="">Events in {city}</Heading>
+        <Heading className="">{capitalize(city)} Events</Heading>
       </HeroContainer>
       {/* <Suspense fallback={<Loading />}> */}
-        <EventsList city={capitalize(city)} />
+      <EventsList city={city} />
       {/* </Suspense> */}
     </>
   );

@@ -10,6 +10,7 @@ type EventsListProps = {
 
 export default async function EventsList({ city }: EventsListProps) {
   const events = await getEvents(city);
+  
   return (
     <section
       className="flex gap-8 flex-wrap

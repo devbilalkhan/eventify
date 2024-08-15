@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import { Metadata } from "next";
 import { capitalize, getEvent } from "@/lib/utils";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: {
@@ -13,10 +14,11 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const eventName = params.name;
-  const response = await fetch(
-    `https://bytegrad.com/course-assets/projects/evento/api/events/${eventName}`
-  );
-  const event = await response.json();
+  const event = await getEvent(eventName);
+
+  if (!event) {
+    return notFound();
+  }
 
   return {
     title: `${capitalize(event.name)}`,
@@ -26,6 +28,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function EventPage({ params }: Props) {
   const eventName = params.name;
   const event = await getEvent(eventName);
+
+  if (!event) {
+    return notFound();
+  }
   const { name, city, location, date, organizerName, imageUrl, description } =
     event;
 
