@@ -21,8 +21,8 @@ export default function Home() {
       <section className="mt-10 flex gap-x-6 text-sm text-white/[50%]">
         <p>Popular</p>
         <div className="space-x-2">
-          <Link href="/">Sydney</Link>
-          <Link href="/">Brisbane</Link>
+          <Link href="/events/austin">Austin</Link>
+          <Link href="/events/seattle">Seattle</Link>
         </div>
       </section>
     </main>
