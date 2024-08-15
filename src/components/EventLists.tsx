@@ -1,7 +1,8 @@
-import { TEvent } from "@/lib/type";
+
 import { getEvents } from "@/lib/utils";
 
 import EventCard from "./EventCard";
+import { TEvent } from "@prisma/client";
 
 type EventsListProps = {
   city: string;

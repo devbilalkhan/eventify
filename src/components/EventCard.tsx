@@ -55,10 +55,11 @@ function EventCard({ event }: EventCardProps) {
       style={{
         // @ts-ignore
         scale: scaleProgress,
-        opacaity: scaleProgress,
+        // @ts-ignore
+        opacity: scaleProgress,
       }}
       initial={{
-        opacity: 0.1,
+        opacity: 0,
         scale: 0.8,
       }}
     >

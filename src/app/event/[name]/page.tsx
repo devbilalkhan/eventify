@@ -1,5 +1,5 @@
 import Heading from "@/components/Heading";
-import { TEvent } from "@/lib/type";
+
 import Image from "next/image";
 
 import { Metadata } from "next";

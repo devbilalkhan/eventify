@@ -1,6 +1,6 @@
 import Heading from "@/components/Heading";
 import HeroContainer from "@/components/HeroContainer";
-import { TEvent } from "../../../lib/type";
+
 
 import { Suspense } from "react";
 import Loading from "@/app/events/loading";
